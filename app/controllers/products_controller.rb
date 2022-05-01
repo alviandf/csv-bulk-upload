@@ -1,3 +1,5 @@
+require 'csv'
+
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
 
@@ -55,6 +57,15 @@ class ProductsController < ApplicationController
       format.html { redirect_to products_url, notice: "Product was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def upload
+    uploaded_file = params[:csv]
+    items = []
+    CSV.foreach(uploaded_file.path, headers: true) do |row|
+      items << row.to_h
+    end
+    Product.import(items)
   end
 
   private

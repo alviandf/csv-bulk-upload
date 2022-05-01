@@ -2,6 +2,11 @@
 
 <h1>Products</h1>
 
+<%= form_with url: "products/upload", multipart: true do |form| %>
+  <%= file_field_tag :csv %>
+  <%= form.submit %>
+<% end %>
+ 
 <div id="products">
   <% @products.each do |product| %>
     <%= render product %>
